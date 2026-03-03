@@ -1,9 +1,18 @@
-import React, {useMemo, useState} from 'react'
+import React, {useMemo, useState, useEffect} from 'react'
 import wifiData from "../assets/wifi.json"
 import MapView from '../components/MapView'
+import { useLocation } from 'react-router-dom'
 
 const MapPage = () => {
   const [q, setQ] = useState('')
+
+  const[selectedSpot, setSelectedSpot] = useState(null)
+  const {state} = useLocation()
+  useEffect(()=>{
+    if(state?.selectedSpot) {
+      setSelectedSpot(state.selectedSpot)
+    }
+  }, [state?.selectedSpot])
 
   const filtered = useMemo(()=>{
     const keyword = q.trim()
@@ -19,6 +28,18 @@ const MapPage = () => {
 
   },[q])
 
+  const isSameSpot = (a, b) => 
+    a?.name === b?.name &&
+    a?.lat === b?.lat &&
+    a?.lng === b?.lng
+  
+  const spotsToShow = useMemo(()=>{
+    if (!selectedSpot) return filtered
+    if(filtered.some((f)=>isSameSpot(f, selectedSpot))) {
+      return filtered
+    }
+    return [selectedSpot, ...filtered]
+  }, [filtered, selectedSpot])
 
   return (
     <div className='grid gap-4 lg:grid-cols-[7fr_3fr]'>
@@ -34,7 +55,10 @@ const MapPage = () => {
         <div className='h-[70vh]'>
           <div className="text-center">
             <div className="mt-1 h-[100vh]">
-              <MapView/>
+              <MapView
+                selectedSpot={selectedSpot}
+                spots={spotsToShow}
+                />
               </div>
           </div>
         
