@@ -36,7 +36,7 @@ const MapView = ({selectedSpot, spots=[]}) => {
     useEffect(() => {
         //1. 카카오 SDK 준비 안됐거나
         //    지도 인스턴스가 없으면 실행 중단
-        if(!ready || !mapInstanceRef.current || !window.kakao?.maps) return
+        if(!ready || !selectedSpot || !mapInstanceRef.current || !window.kakao?.maps) return
         
         const map = mapInstanceRef.current
          /* 2.기존 마커 제거
