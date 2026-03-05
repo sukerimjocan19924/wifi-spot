@@ -112,9 +112,15 @@ const MapView = ({selectedSpot, spots=[]}) => {
         map.setCenter(position)
         map.setLevel(3)
 
-        const marker = markersRef.current.find(
+        let marker = markersRef.current.find(
             (m)=>m.spot?.name === selectedSpot.name
         )
+
+        if (!marker) {
+            marker = new window.kakao.maps.Marker({ position, map })
+            marker.spot = selectedSpot
+            markersRef.current.push(marker)
+        }
 
         if(marker &&  infoRef.current) {
             infoRef.current.setContent(
