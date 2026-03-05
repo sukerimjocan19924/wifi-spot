@@ -31,7 +31,7 @@ const FavoritesPage = () => {
               <div>
                 <Link
                   className='text-xs text-slate-600 hover:text-slate-900 underline'
-                  to="./map"
+                  to="/map"
                   state={{selectedSpot:item}}>지도보기</Link>
                 <button
                   className='text-lg cursor-pointer select-none'
