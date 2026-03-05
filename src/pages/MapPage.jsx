@@ -20,14 +20,14 @@ const MapPage = () => {
   const filtered = useMemo(()=>{
     const keyword = q.trim()
 
-    if(!keyword) return wifiData.slice(0,50)
+    if(!keyword) return wifiData.slice(0,100)
 
       return wifiData
       .filter((x)=>
       (x.name+ " "+x.detail)
       .toLowerCase()
       .includes(keyword.toLowerCase())
-      ).slice(0,50)
+      ).slice(0,100)
 
   },[q])
 
@@ -71,7 +71,7 @@ const MapPage = () => {
       {/* 리스트 필터 영역 */}
       <aside className='border rounded-2xl bg-white shadow-sm'>
         <div className='border-b px-4 py-3'>
-          <h2 className='text-base font-semibold'>Wifi Spot</h2>
+          <h2 className='text-base font-semibold'>toilet Spot</h2>
           <p className='mt-1 text-xs text-slate-500'>데이터: {wifiData.length}건 / 표시: {filtered.length}건</p>
         </div>
 
