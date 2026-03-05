@@ -2,12 +2,15 @@ import React, {useMemo, useState, useEffect} from 'react'
 import wifiData from "../assets/wifi.json"
 import MapView from '../components/MapView'
 import { useLocation } from 'react-router-dom'
+import { useFavoritesContext } from '../contexts/FavoritesContext'
 
 const MapPage = () => {
   const [q, setQ] = useState('')
 
   const[selectedSpot, setSelectedSpot] = useState(null)
   const {state} = useLocation()
+  const { toggle, isFavorite } = useFavoritesContext()
+
   useEffect(()=>{
     if(state?.selectedSpot) {
       setSelectedSpot(state.selectedSpot)
@@ -42,8 +45,8 @@ const MapPage = () => {
   }, [filtered, selectedSpot])
 
   return (
-    <div className='grid gap-4 lg:grid-cols-[7fr_3fr]'>
-      {/* {지도영역} */}
+    <div className='grid gap-4 lg:grid-cols-[1.4fr_0.6fr]'>
+      {/* 지도영역 */}
       <section 
         className='overflow-hidden border rounded-2xl bg-white shadow-sm'>
         <div className='flex items-center justify-between border-b px-4 py-3'>
@@ -65,7 +68,7 @@ const MapPage = () => {
         </div>
       </section>
 
-      {/* {리스트 필터 영역} */}
+      {/* 리스트 필터 영역 */}
       <aside className='border rounded-2xl bg-white shadow-sm'>
         <div className='border-b px-4 py-3'>
           <h2 className='text-base font-semibold'>Wifi Spot</h2>
@@ -100,6 +103,14 @@ const MapPage = () => {
                 <span className='rounded bg-slate-100 px-2 py-1 text-xs text-slate-600'>
                   {item.phone}
                 </span>
+                <span
+                  onClick={(e)=>{e.stopPropagation(); toggle(item)}}
+                  className='cursor-pointer select-none text-lg'
+                  role='button'
+                  aria-label={isFavorite(item)? '즐겨찾기 해제':'즐겨찾기 추가'}>
+                  {isFavorite(item)? '❤' : '♡'}
+                </span>
+
               </div>
             </li>
           ))}
