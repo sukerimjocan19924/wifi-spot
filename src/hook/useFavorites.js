@@ -61,11 +61,11 @@ const useFavorites = () => {
     }, [])
 
     //
-    const isFavorite = useCallback((spot) => {
+    const isFavorite = useCallback((spot) => 
         favorites.some((f)=>
             isSameSpot(f, spot)
         )
-    }, [favorites])
+    , [favorites])
 
   return {
     favorites,
